@@ -84,7 +84,7 @@ function App() {
                     <NavDropdown.Item as={NavLink} to="/FormikValidation">
                       Formik Validation Essentials
                     </NavDropdown.Item>
-                    <NavDropdown.Item
+                    {/* <NavDropdown.Item
                       as={NavLink}
                       to="/dynamicinputhandling"
                       className="text-danger"
@@ -97,7 +97,7 @@ function App() {
                       className="text-danger"
                     >
                       Production-Ready Form Refactor{" "}
-                    </NavDropdown.Item>
+                    </NavDropdown.Item> */}
                     <NavDropdown.Item as={NavLink} to="/YupForm">
                       Yup Form
                     </NavDropdown.Item>
@@ -127,15 +127,12 @@ function App() {
                 element={<RegistrationFormik />}
               />
               <Route path="/formikvalidation" element={<FormikValidation />} />
-              <Route
+              {/* <Route
                 path="/dynamicinputhandling"
                 element={<DynamicInputHandling />}
               />
-              <Route
-                path="/dynamicinputhandling"
-                element={<DynamicInputHandling />}
-              />
-              <Route path="/productionrefactor" element={<RegisterForm />} />
+              
+              <Route path="/productionrefactor" element={<RegisterForm />} /> */}
 
               <Route path="/YupForm" element={<YupForm />} />
             </Routes>
