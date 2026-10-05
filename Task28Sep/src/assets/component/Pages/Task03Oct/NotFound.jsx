@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function NotFound() {
+  const navigate = useNavigate();
+
   return (
     <div className="not-found-page">
       <div className="not-found-card">
@@ -14,6 +16,15 @@ function NotFound() {
           <Link to="/" className="primary-btn">
             Go to Home
           </Link>
+
+          <button
+            className="primary-btn"
+            type="button"
+            onClick={() => navigate("/home")}
+          >
+            {" "}
+            Home{" "}
+          </button>
         </div>
       </div>
     </div>
