@@ -4,9 +4,9 @@ import { Card } from "react-bootstrap";
 function ColorButtons() {
   const [message, setMessage] = useState("");
   const handleClick = (event) => {
-    const color = event.target.textContent;
-    console.log(color + " button clicked");
-    setMessage(color + " button clicked");
+    const nagarajan = event.target.textContent;
+    console.log(nagarajan + " button clicked");
+    setMessage(nagarajan + " button clicked");
   };
   return (
     <div>

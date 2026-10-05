@@ -1,0 +1,11 @@
+function DynamicRoutingUserProfile() {
+  return (
+    <div>
+      <h5>Task 9: Dynamic Routing User Profile</h5>
+      <div className="mt-2 d-flex gap-2"></div>
+      <p></p>
+    </div>
+  );
+}
+
+export default DynamicRoutingUserProfile;
