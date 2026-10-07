@@ -1,7 +1,7 @@
-import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./assets/component/Pages/Home";
 // import AboutPage from "./assets/component/Pages/About";
-import { Col, Container, NavDropdown, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import Header from "./assets/component/Header";
 import Footer from "./assets/component/Footer";
 // Task 28 Sep
@@ -30,6 +30,7 @@ import ImplementingNavigationElements from "./assets/component/Pages/Task03Oct/I
 import DynamicRoutingUserProfile from "./assets/component/Pages/Task03Oct/User/DynamicRoutingUserProfile";
 import NotFound from "./assets/component/Pages/Task03Oct/NotFound";
 import Contact from "./assets/component/Pages/Contact/Contact";
+import SampleProductList from "./assets/component/Pages/Practice/SampleProductList";
 
 function App() {
   return (
@@ -120,6 +121,10 @@ function App() {
                   element={<DynamicRoutingUserProfile />}
                 />
                 <Route path={"/not-found"} element={<NotFound />} />
+                <Route
+                  path={"/sample-product-list"}
+                  element={<SampleProductList />}
+                />
               </Routes>
             </Col>
           </Row>

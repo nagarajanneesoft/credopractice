@@ -168,6 +168,16 @@ function Header() {
                 Advanced Directory Strategy & 404 Handling
               </NavDropdown.Item>
             </NavDropdown>
+
+            <NavDropdown
+              title="Practice"
+              id="task-03-oct"
+              className="header-dropdown"
+            >
+              <NavDropdown.Item as={NavLink} to="/sample-product-list">
+                Sample Product List
+              </NavDropdown.Item>
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>
