@@ -177,6 +177,9 @@ function Header() {
               <NavDropdown.Item as={NavLink} to="/sample-product-list">
                 Sample Product List
               </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/new-demo">
+                New Demo
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
