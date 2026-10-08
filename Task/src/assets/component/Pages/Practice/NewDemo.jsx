@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row, Form } from "react-bootstrap";
 
-function SampleProductList() {
+function NewDemo() {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
@@ -70,4 +70,4 @@ function SampleProductList() {
   );
 }
 
-export default SampleProductList;
+export default NewDemo;
