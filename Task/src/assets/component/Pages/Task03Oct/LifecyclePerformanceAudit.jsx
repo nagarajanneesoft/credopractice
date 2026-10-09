@@ -3,7 +3,11 @@ import { Form, Card } from "react-bootstrap";
 
 const Child = memo(function Child({ name, onClick }) {
   console.log("Child rendered 😩");
-  return <button onClick={onClick}>{name}</button>;
+  return (
+    <button onClick={onClick} className="btn btn-danger mb-2">
+      {name}
+    </button>
+  );
 });
 
 function LifecyclePerformanceAudit() {

@@ -104,16 +104,18 @@ function Header() {
                 Login Manual
               </NavDropdown.Item>
               <NavDropdown.Item as={NavLink} to="/LoginFormik">
-                Login Formik
+                Login Formik <span className="text-danger">Doute</span>
               </NavDropdown.Item>
               <NavDropdown.Item as={NavLink} to="/RegistrationFormik">
-                Registration Formik
+                Registration Formik <span className="text-danger">Doute</span>
               </NavDropdown.Item>
               <NavDropdown.Item as={NavLink} to="/FormikValidation">
-                Formik Validation Essentials
+                Formik Validation Essentials{" "}
+                <span className="text-danger">Doute</span>
               </NavDropdown.Item>
               <NavDropdown.Item as={NavLink} to="/dynamicinputhandling">
-                Dynamic Input Handling
+                Dynamic Input Handling{" "}
+                <span className="text-danger">Doute</span>
               </NavDropdown.Item>
               <NavDropdown.Item as={NavLink} to="/productionrefactor">
                 Production-Ready Form Refactor
@@ -141,13 +143,15 @@ function Header() {
                 Cleanup Logic Simulation
               </NavDropdown.Item>
               <NavDropdown.Item as={NavLink} to="/lifecycle-performance-audit">
-                Lifecycle Performance Audit
+                Lifecycle Performance Audit{" "}
+                <span className="text-danger">Doute</span>
               </NavDropdown.Item>
               <NavDropdown.Item
                 as={NavLink}
                 to="/setting-up-navigation-foundation"
               >
-                Setting Up the Navigation Foundation
+                Setting Up the Navigation Foundation{" "}
+                <span className="text-danger">Doute</span>
               </NavDropdown.Item>
               <NavDropdown.Item as={NavLink} to="/structuring-routes">
                 Structuring Routes
@@ -177,8 +181,12 @@ function Header() {
               <NavDropdown.Item as={NavLink} to="/sample-product-list">
                 Sample Product List
               </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/new-demo">
-                New Demo
+
+              <NavDropdown.Item as={NavLink} to="/location-route-page">
+                Location RoutePage
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/dynamic-route-page">
+                Dynamic RoutePage
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>

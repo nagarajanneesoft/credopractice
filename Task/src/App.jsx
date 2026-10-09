@@ -31,7 +31,8 @@ import DynamicRoutingUserProfile from "./assets/component/Pages/Task03Oct/User/D
 import NotFound from "./assets/component/Pages/Task03Oct/NotFound";
 import Contact from "./assets/component/Pages/Contact/Contact";
 import SampleProductList from "./assets/component/Pages/Practice/SampleProductList";
-import NewDemo from "./assets/component/Pages/Practice/NewDemo";
+import LocationRoutePage from "./assets/component/Pages/Practice/LocationRoutePage";
+import DynamicRoutePage from "./assets/component/Pages/Practice/DynamicRoutePage";
 function App() {
   return (
     <BrowserRouter>
@@ -46,7 +47,14 @@ function App() {
                 <Route path="/about" element={<AboutPage />} /> */}
                 <Route path="/" element={<HomePage />} />
                 <Route path="*" element={<NotFound />} />
-                <Route path="/new-demo" element={<NewDemo />} />
+                <Route
+                  path="/location-route-page"
+                  element={<LocationRoutePage />}
+                />
+                <Route
+                  path="/dynamic-route-page"
+                  element={<DynamicRoutePage />}
+                />
 
                 <Route path="/home" element={<HomePage />} />
                 <Route path={"/contact"} element={<Contact />} />
