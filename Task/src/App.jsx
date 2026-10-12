@@ -1,6 +1,6 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import HomePage from "./assets/component/Pages/Home";
-// import AboutPage from "./assets/component/Pages/About";
+import AboutPage from "./assets/component/Pages/About";
 import { Col, Container, Row } from "react-bootstrap";
 import Header from "./assets/component/Header";
 import Footer from "./assets/component/Footer";
@@ -33,19 +33,108 @@ import Contact from "./assets/component/Pages/Contact/Contact";
 import SampleProductList from "./assets/component/Pages/Practice/SampleProductList";
 import LocationRoutePage from "./assets/component/Pages/Practice/LocationRoutePage";
 import DynamicRoutePage from "./assets/component/Pages/Practice/DynamicRoutePage";
+import Products from "./assets/component/Pages/Products/Products";
+import ProductDetails from "./assets/component/Pages/Products/ProductDetails";
+import Login from "./assets/component/Pages/Login";
+import ProtectedRoute from "./assets/component/ProtectedRoute";
+import { useLayoutEffect, useRef, useState } from "react";
+
 function App() {
+  const navigate = useNavigate();
+  const hasAddedBackGuard = useRef(false);
+
+  // Restore the user on refresh without retaining credentials or tokens.
+  const [user, setUser] = useState(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (!storedUser) return null;
+
+    const safeUser = Object.fromEntries(
+      Object.entries(storedUser).filter(
+        ([key]) => key !== "accessToken" && key !== "refreshToken",
+      ),
+    );
+
+    if (Object.keys(safeUser).length !== Object.keys(storedUser).length) {
+      localStorage.setItem("user", JSON.stringify(safeUser));
+    }
+
+    return safeUser;
+  });
+
+  const handleLogin = (userData) => {
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
+  useLayoutEffect(() => {
+    if (!user) {
+      hasAddedBackGuard.current = false;
+      return;
+    }
+
+    if (!hasAddedBackGuard.current) {
+      window.history.pushState(
+        window.history.state,
+        "",
+        window.location.href,
+      );
+      hasAddedBackGuard.current = true;
+    }
+
+    const preventBackNavigation = (event) => {
+      event.stopImmediatePropagation();
+      window.history.go(1);
+    };
+
+    window.addEventListener("popstate", preventBackNavigation, true);
+
+    return () => {
+      window.removeEventListener("popstate", preventBackNavigation, true);
+    };
+  }, [user]);
+
   return (
-    <BrowserRouter>
-      <Header />
+    <>
+      {user && <Header user={user} onLogout={handleLogout} />}
       <main className="flex-shrink-0">
         <Container>
           <Row></Row>
           <Row>
             <Col>
               <Routes>
-                {/* 
-                <Route path="/about" element={<AboutPage />} /> */}
-                <Route path="/" element={<HomePage />} />
+                <Route
+                  path="/login"
+                  element={
+                    user ? (
+                      <Navigate to="/products" replace />
+                    ) : (
+                      <Login onLogin={handleLogin} />
+                    )
+                  }
+                />
+
+                <Route
+                  path="/home"
+                  element={
+                    <ProtectedRoute user={user}>
+                      <HomePage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/about"
+                  element={
+                    <ProtectedRoute user={user}>
+                      <AboutPage />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="*" element={<NotFound />} />
                 <Route
                   path="/location-route-page"
@@ -56,8 +145,14 @@ function App() {
                   element={<DynamicRoutePage />}
                 />
 
-                <Route path="/home" element={<HomePage />} />
-                <Route path={"/contact"} element={<Contact />} />
+                <Route
+                  path={"/contact"}
+                  element={
+                    <ProtectedRoute user={user}>
+                      <Contact />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route
                   path={"/user/:name"}
                   element={<DynamicRoutingUserProfile />}
@@ -134,13 +229,20 @@ function App() {
                   path={"/sample-product-list"}
                   element={<SampleProductList />}
                 />
+                {/* 12-Oct */}
+                <Route path={"/products"} element={<Products />} />
+                <Route path={"/products/:id"} element={<ProductDetails />} />
+                <Route
+                  path="/products/category/:categoryName"
+                  element={<Products />}
+                />
               </Routes>
             </Col>
           </Row>
         </Container>
       </main>
       <Footer />
-    </BrowserRouter>
+    </>
   );
 }
 

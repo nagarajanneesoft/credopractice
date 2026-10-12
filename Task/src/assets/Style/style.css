@@ -710,10 +710,11 @@ h6 {
 }
 
 .btn {
-  min-height: 40px;
+  /* min-height: 40px; */
   border-radius: 7px;
   padding: 8px 15px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 400;
   transition:
     transform 140ms ease,
     box-shadow 140ms ease,

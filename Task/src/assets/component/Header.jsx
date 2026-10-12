@@ -44,19 +44,21 @@
 
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
+import Button from "react-bootstrap/Button";
+import Image from "react-bootstrap/Image";
 import { NavLink } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
-function Header() {
+function Header({ user, onLogout }) {
   const navLinkClass = ({ isActive }) =>
     isActive ? "header-link active" : "header-link";
 
   return (
-    <Navbar expand="lg" className="modern-header">
+    <Navbar expand="lg" className="modern-header" fixed="top">
       <Container fluid className="header-container">
         <Navbar.Brand as="div" className="brand-shell">
-          <a href="/" className="brand-logo" aria-label="Credo home">
+          <a href="/login" className="brand-logo" aria-label="Credo home">
             <img
               src="https://www.credosystemz.com/wp-content/uploads/2024/02/cropped-cropped-cropped-logo-1.png"
               alt="Credo Systemz logo"
@@ -70,8 +72,11 @@ function Header() {
         />
         <Navbar.Collapse id="main-navbar-nav" className="justify-content-end">
           <Nav className="header-nav">
-            <NavLink to="/" className={navLinkClass}>
+            <NavLink to="/home" className={navLinkClass}>
               Home
+            </NavLink>
+            <NavLink to="/about" className={navLinkClass}>
+              About
             </NavLink>
             <NavLink to="/contact" className={navLinkClass}>
               Contact
@@ -140,7 +145,8 @@ function Header() {
                 Dynamic Title Updater
               </NavDropdown.Item>
               <NavDropdown.Item as={NavLink} to="/cleanup-logic-simulation">
-                Cleanup Logic Simulation
+                Cleanup Logic Simulation{" "}
+                <span className="text-danger">Doute</span>
               </NavDropdown.Item>
               <NavDropdown.Item as={NavLink} to="/lifecycle-performance-audit">
                 Lifecycle Performance Audit{" "}
@@ -151,7 +157,6 @@ function Header() {
                 to="/setting-up-navigation-foundation"
               >
                 Setting Up the Navigation Foundation{" "}
-                <span className="text-danger">Doute</span>
               </NavDropdown.Item>
               <NavDropdown.Item as={NavLink} to="/structuring-routes">
                 Structuring Routes
@@ -189,6 +194,32 @@ function Header() {
                 Dynamic RoutePage
               </NavDropdown.Item>
             </NavDropdown>
+
+            <NavDropdown
+              title="Routing"
+              id="11-oct"
+              className="header-dropdown"
+            >
+              <NavDropdown.Item as={NavLink} to="/products">
+                Products
+              </NavDropdown.Item>
+            </NavDropdown>
+
+            <div className="d-flex align-items-center gap-2 ms-lg-3">
+              {/* {user?.image && (
+                <Image
+                  src={user.image}
+                  alt=""
+                  roundedCircle
+                  width={32}
+                  height={32}
+                />
+              )} */}
+              <span>{user?.firstName}</span>
+              <Button size="sm" variant="danger" onClick={onLogout}>
+                Logout
+              </Button>
+            </div>
           </Nav>
         </Navbar.Collapse>
       </Container>
