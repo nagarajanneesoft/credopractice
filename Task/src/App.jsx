@@ -79,11 +79,7 @@ function App() {
     }
 
     if (!hasAddedBackGuard.current) {
-      window.history.pushState(
-        window.history.state,
-        "",
-        window.location.href,
-      );
+      window.history.pushState(window.history.state, "", window.location.href);
       hasAddedBackGuard.current = true;
     }
 
