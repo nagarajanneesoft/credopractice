@@ -13,14 +13,14 @@ function NotFound() {
         </p>
 
         <div className="not-found-actions">
-          <Link to="/" className="primary-btn">
+          <Link to="/login" className="primary-btn">
             Go to Home
           </Link>
 
           <button
             className="primary-btn"
             type="button"
-            onClick={() => navigate("/home")}
+            onClick={() => navigate("/login")}
           >
             {" "}
             Home{" "}
