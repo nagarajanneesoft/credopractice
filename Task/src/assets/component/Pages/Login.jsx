@@ -78,6 +78,8 @@ function Login({ onLogin }) {
                 Submit
               </button>
             </Form>
+            <p>username : emilys</p>
+            <p>Password : emilyspass</p>
           </Card>
         </Col>
       </Row>
