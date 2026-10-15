@@ -46,16 +46,7 @@ function Login({ onLogin }) {
             <h6 className="text-center">Login</h6>
 
             {error && <Alert variant="danger">{error}</Alert>}
-            <Card className="py-2 mb-2">
-              <div className="d-flex gap-5 justify-content-center">
-                <span className="p-0 m-0">
-                  Username : <span className="text-danger">emilys</span>
-                </span>
-                <span className="p-0 m-0">
-                  Password : <span className="text-danger">emilyspass</span>
-                </span>
-              </div>
-            </Card>
+
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
                 <Form.Label>User Name</Form.Label>
