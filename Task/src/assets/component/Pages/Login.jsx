@@ -62,7 +62,7 @@ function Login({ onLogin }) {
                 <Form.Control
                   type="text"
                   value={name}
-                  placeholder="emilys"
+                  placeholder="Test"
                   onChange={(e) => {
                     setName(e.target.value);
                     setError(""); // type panna error clear
@@ -75,7 +75,7 @@ function Login({ onLogin }) {
                 <Form.Control
                   type="password"
                   value={password}
-                  placeholder="emilyspass"
+                  placeholder="Test@123"
                   onChange={(e) => {
                     setPassword(e.target.value);
                     setError("");

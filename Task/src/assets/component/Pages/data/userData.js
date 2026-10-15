@@ -1,8 +1,8 @@
 export const users = [
   {
     id: 1,
-    username: "emilys",
-    password: "emilyspass", // learning ku mattum
+    username: "Test",
+    password: "Test@123", // learning ku mattum
     email: "emily.johnson@x.dummyjson.com",
     firstName: "emilys",
     lastName: "pass",
