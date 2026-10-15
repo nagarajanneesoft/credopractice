@@ -131,7 +131,7 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route path="*" element={<Login />} />
+                <Route path="*" element={<Navigate to="/login" replace />} />
                 {/* <Route path="*" element={<NotFound />} /> */}
                 <Route
                   path="/location-route-page"
