@@ -38,6 +38,9 @@ import ProductDetails from "./assets/component/Pages/Products/ProductDetails";
 import Login from "./assets/component/Pages/Login";
 import ProtectedRoute from "./assets/component/ProtectedRoute";
 import { useLayoutEffect, useRef, useState } from "react";
+import LanguageDemo from "./assets/component/Pages/LanguageDemo";
+import CartDemo from "./assets/component/Pages/CartDemo";
+import Dashboard from "./assets/component/Pages/Dashboard";
 
 function App() {
   const navigate = useNavigate();
@@ -233,6 +236,11 @@ function App() {
                   path="/products/category/:categoryName"
                   element={<Products />}
                 />
+
+                {/* 21-Oct */}
+                <Route path={"/translate"} element={<LanguageDemo />} />
+                <Route path={"/cartdemo"} element={<CartDemo />} />
+                <Route path={"/dash"} element={<Dashboard />} />
               </Routes>
             </Col>
           </Row>

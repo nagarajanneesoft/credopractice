@@ -849,3 +849,32 @@ main {
 .dropdown-item:active {
   background-color: #ddd;
 }
+
+/* Dark Theme & Light Theme */
+/* ===== Dark theme ===== */
+[data-bs-theme="dark"] {
+  color-scheme: dark;
+  --text: #c9d4d8;
+  --text-h: #f1f5f6;
+  --bg: #14191c;
+  --border: #2c383d;
+  --accent-bg: #17332f;
+  --social-bg: #1b2327;
+}
+[data-bs-theme="dark"] body {
+  background-image: none;
+}
+[data-bs-theme="dark"] .modern-header,
+[data-bs-theme="dark"] .site-footer,
+[data-bs-theme="dark"] .package-header {
+  background: #1b2327;
+  border-color: #2c383d;
+}
+[data-bs-theme="dark"] .header-dropdown .dropdown-toggle,
+[data-bs-theme="dark"] .header-dropdown .dropdown-item,
+[data-bs-theme="dark"] .header-link {
+  color: #e5ecee !important;
+}
+.dark_light_mode {
+  cursor: pointer;
+}

@@ -45,10 +45,10 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
-import Image from "react-bootstrap/Image";
 import { NavLink } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import ThemeToggle from "./ThemeToggle";
 
 function Header({ user, onLogout }) {
   const navLinkClass = ({ isActive }) =>
@@ -131,7 +131,7 @@ function Header({ user, onLogout }) {
             </NavDropdown>
 
             <NavDropdown
-              title="Task_03-Oct"
+              title="Task_Oct"
               id="task-03-oct"
               className="header-dropdown"
             >
@@ -176,6 +176,22 @@ function Header({ user, onLogout }) {
               >
                 Advanced Directory Strategy & 404 Handling
               </NavDropdown.Item>
+              <hr />
+              <NavDropdown.Item as={NavLink} to="/">
+                Dark & Light Theame
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/">
+                Auth
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/translate">
+                Translate
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/cartdemo">
+                Cart Demo
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/dash">
+                Dashboard
+              </NavDropdown.Item>
             </NavDropdown>
 
             <NavDropdown
@@ -204,6 +220,8 @@ function Header({ user, onLogout }) {
                 Products
               </NavDropdown.Item>
             </NavDropdown>
+
+            <ThemeToggle />
 
             <div className="d-flex align-items-center gap-2 ms-lg-3">
               {/* {user?.image && (
