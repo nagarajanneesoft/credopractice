@@ -59,7 +59,7 @@ function UsersTable() {
 }
 
 // Page
-export default function Dashboard() {
+export default function HomeDashboard() {
   const { user } = useAuth();
 
   // Logout பண்ணும்போது user null ஆகும், அப்போ எதுவும் காட்டாத

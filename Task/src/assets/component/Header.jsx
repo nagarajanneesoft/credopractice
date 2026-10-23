@@ -191,7 +191,7 @@ function Header({ user, onLogout }) {
               <NavDropdown.Item as={NavLink} to="/cartdemo">
                 Cart Demo
               </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/home">
+              <NavDropdown.Item as={NavLink} to="/homedash">
                 Dashboard
               </NavDropdown.Item>
             </NavDropdown>
@@ -218,6 +218,36 @@ function Header({ user, onLogout }) {
             >
               <NavDropdown.Item as={NavLink} to="/products">
                 Products
+              </NavDropdown.Item>
+            </NavDropdown>
+
+            <NavDropdown title="Hooks" id="Oct" className="header-dropdown">
+              <NavDropdown.Item as={NavLink} to="/hooks">
+                React Hooks
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/one">
+                useState
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/two">
+                useEffect
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/three">
+                useRef
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/four">
+                useMemo
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/five">
+                useCallback
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/six">
+                useReducer
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/seven">
+                useContext
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/eight">
+                useCustom
               </NavDropdown.Item>
             </NavDropdown>
             <ThemeToggle />

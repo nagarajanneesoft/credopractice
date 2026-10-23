@@ -179,10 +179,10 @@ export default function Products() {
 
   return (
     <Container className="py-4">
-      <h2 className="mb-3">
+      <h6 className="mb-3">
         {category ? category : "All Products"}{" "}
         <Badge bg="secondary">{filteredProducts.length}</Badge>
-      </h2>
+      </h6>
 
       <div className="d-flex justify-content-between">
         {/* Category buttons */}

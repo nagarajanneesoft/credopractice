@@ -40,7 +40,16 @@ import ProtectedRoute from "./assets/component/ProtectedRoute";
 import { useLayoutEffect, useRef, useState } from "react";
 import LanguageDemo from "./assets/component/Pages/LanguageDemo";
 import CartDemo from "./assets/component/Pages/CartDemo";
-import Dashboard from "./assets/component/Pages/Dashboard";
+import DashboardHooks from "./assets/component/Pages/hooks/DashboardHooks";
+import One from "./assets/component/Pages/hooks/One";
+import Two from "./assets/component/Pages/hooks/Two";
+import Three from "./assets/component/Pages/hooks/Three";
+import Four from "./assets/component/Pages/hooks/Four";
+import Five from "./assets/component/Pages/hooks/Five";
+import Six from "./assets/component/Pages/hooks/Six";
+import Seven from "./assets/component/Pages/hooks/Seven";
+import Eight from "./assets/component/Pages/hooks/Eight";
+import HomeDashboard from "./assets/component/Pages/HomeDashboard";
 
 function App() {
   const navigate = useNavigate();
@@ -240,9 +249,19 @@ function App() {
                 {/* 21-Oct */}
                 <Route path={"/translate"} element={<LanguageDemo />} />
                 <Route path={"/cartdemo"} element={<CartDemo />} />
-                <Route path={"/dash"} element={<Dashboard />} />
+                {/* <Route path={"/dash"} element={<Dashboard />} /> */}
+                <Route path={"/homedash"} element={<HomeDashboard />} />
 
                 {/* 23-Oct */}
+                <Route path="/hooks" element={<DashboardHooks />} />
+                <Route path="/one" element={<One />} />
+                <Route path="/two" element={<Two />} />
+                <Route path="/three" element={<Three />} />
+                <Route path="/four" element={<Four />} />
+                <Route path="/five" element={<Five />} />
+                <Route path="/six" element={<Six />} />
+                <Route path="/seven" element={<Seven />} />
+                <Route path="/eight" element={<Eight />} />
               </Routes>
             </Col>
           </Row>
