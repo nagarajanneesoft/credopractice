@@ -49,10 +49,14 @@ import { NavLink } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import ThemeToggle from "./ThemeToggle";
+import { FaShoppingCart } from "react-icons/fa";
+import { useCart } from "../context/CartContext";
 
 function Header({ user, onLogout }) {
   const navLinkClass = ({ isActive }) =>
     isActive ? "header-link active" : "header-link";
+  const { cart } = useCart();
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <Navbar expand="lg" className="modern-header" fixed="top">
@@ -81,7 +85,6 @@ function Header({ user, onLogout }) {
             <NavLink to="/contact" className={navLinkClass}>
               Contact
             </NavLink>
-
             <NavDropdown
               title="Task_28-Sep"
               id="task-28-sep"
@@ -129,7 +132,6 @@ function Header({ user, onLogout }) {
                 Yup Form
               </NavDropdown.Item>
             </NavDropdown>
-
             <NavDropdown
               title="Task_Oct"
               id="task-03-oct"
@@ -189,11 +191,10 @@ function Header({ user, onLogout }) {
               <NavDropdown.Item as={NavLink} to="/cartdemo">
                 Cart Demo
               </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/dash">
+              <NavDropdown.Item as={NavLink} to="/home">
                 Dashboard
               </NavDropdown.Item>
             </NavDropdown>
-
             <NavDropdown
               title="Practice"
               id="task-03-oct"
@@ -210,7 +211,6 @@ function Header({ user, onLogout }) {
                 Dynamic RoutePage
               </NavDropdown.Item>
             </NavDropdown>
-
             <NavDropdown
               title="Routing"
               id="11-oct"
@@ -220,9 +220,20 @@ function Header({ user, onLogout }) {
                 Products
               </NavDropdown.Item>
             </NavDropdown>
-
             <ThemeToggle />
-
+            <NavLink
+              to="/cartdemo"
+              className={navLinkClass}
+              aria-label={`Cart, ${cartCount} items`}
+            >
+              <FaShoppingCart aria-hidden="true" />{" "}
+              <sup>
+                {" "}
+                <h6>
+                  <span className="badge bg-secondary">{cartCount}</span>
+                </h6>
+              </sup>
+            </NavLink>
             <div className="d-flex align-items-center gap-2 ms-lg-3">
               {/* {user?.image && (
                 <Image

@@ -112,7 +112,6 @@
 //   );
 // }
 
-import React from "react";
 import {
   Container,
   Row,
@@ -122,13 +121,16 @@ import {
   Nav,
   Badge,
   Form,
+  InputGroup,
 } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { products, categories } from "../data/productsData";
+import { useCart } from "../../../context/CartContext";
 
 export default function Products() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { cart, addToCart, removeFromCart } = useCart();
 
   // 1. URL la irundhu query string-ah eduthu parse pannrom
   const queryParams = new URLSearchParams(location.search);
@@ -171,6 +173,9 @@ export default function Products() {
     width: "25%",
     height: "32px",
   };
+
+  const getCartQuantity = (productId) =>
+    cart.find((cartItem) => cartItem.id === productId)?.quantity ?? 0;
 
   return (
     <Container className="py-4">
@@ -219,29 +224,58 @@ export default function Products() {
         {filteredProducts.length === 0 ? (
           <p>Products Not Found</p>
         ) : (
-          filteredProducts.map((item) => (
-            <Col key={item.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
-              <Card className="h-100 shadow-sm">
-                <Card.Img variant="top" src={item.image} alt={item.name} />
-                <Card.Body className="d-flex flex-column">
-                  <Badge bg="info" className="align-self-start mb-2">
-                    {item.category}
-                  </Badge>
-                  <Card.Title>{item.name}</Card.Title>
-                  <Card.Text>₹{item.price}</Card.Text>
+          filteredProducts.map((item) => {
+            const quantity = getCartQuantity(item.id);
 
-                  <Button
-                    as={Link}
-                    to={`/products/${item.id}`}
-                    variant="dark"
-                    className="mt-auto"
-                  >
-                    View Details
-                  </Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))
+            return (
+              <Col key={item.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
+                <Card className="h-100 shadow-sm">
+                  <Card.Img variant="top" src={item.image} alt={item.name} />
+                  <Card.Body className="d-flex flex-column">
+                    <Badge bg="info" className="align-self-start mb-2">
+                      {item.category}
+                    </Badge>
+                    <Card.Title>{item.name}</Card.Title>
+                    <Card.Text>₹{item.price}</Card.Text>
+                    <InputGroup className="mb-2">
+                      <Button
+                        variant="outline-secondary"
+                        aria-label={`Decrease ${item.name} quantity`}
+                        onClick={() => removeFromCart(item.id)}
+                        disabled={quantity === 0}
+                      >
+                        −
+                      </Button>
+                      <Form.Control
+                        type="number"
+                        aria-label={`${item.name} quantity`}
+                        min="0"
+                        max="5"
+                        value={quantity}
+                        readOnly
+                      />
+                      <Button
+                        variant="outline-secondary"
+                        aria-label={`Increase ${item.name} quantity`}
+                        onClick={() => addToCart(item)}
+                        disabled={quantity === 5}
+                      >
+                        +
+                      </Button>
+                    </InputGroup>
+                    <Button
+                      as={Link}
+                      to={`/products/${item.id}`}
+                      variant="dark"
+                      className="mt-auto"
+                    >
+                      View Details
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            );
+          })
         )}
       </Row>
     </Container>

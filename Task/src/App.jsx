@@ -241,6 +241,8 @@ function App() {
                 <Route path={"/translate"} element={<LanguageDemo />} />
                 <Route path={"/cartdemo"} element={<CartDemo />} />
                 <Route path={"/dash"} element={<Dashboard />} />
+
+                {/* 23-Oct */}
               </Routes>
             </Col>
           </Row>

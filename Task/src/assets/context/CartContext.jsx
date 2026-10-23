@@ -1,20 +1,44 @@
 import { createContext, useContext, useState } from "react";
 
-// 1) பலகை
 const CartContext = createContext();
 
-// 2) Provider
 export function CartProvider({ children }) {
-  const [cart, setCart] = useState([]); // முதல்ல cart காலி
+  const [cart, setCart] = useState([]);
 
-  // பழைய cart + புது product
-  const addToCart = (product) => {
-    setCart([...cart, product]);
+  const addToCart = (product, quantity = 1) => {
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      throw new RangeError("Quantity must be a positive integer");
+    }
+
+    setCart((currentCart) => {
+      const existingItem = currentCart.find((item) => item.id === product.id);
+
+      if (!existingItem) {
+        return [...currentCart, { ...product, quantity }];
+      }
+
+      return currentCart.map((item) =>
+        item.id === product.id
+          ? { ...item, quantity: item.quantity + quantity }
+          : item,
+      );
+    });
   };
 
-  // index-ல உள்ள ஒரு item-ஐ மட்டும் நீக்கு
-  const removeFromCart = (index) => {
-    setCart(cart.filter((item, i) => i !== index));
+  const removeFromCart = (productId, quantity = 1) => {
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      throw new RangeError("Quantity must be a positive integer");
+    }
+
+    setCart((currentCart) =>
+      currentCart
+        .map((item) =>
+          item.id === productId
+            ? { ...item, quantity: item.quantity - quantity }
+            : item,
+        )
+        .filter((item) => item.quantity > 0),
+    );
   };
 
   return (
@@ -24,5 +48,4 @@ export function CartProvider({ children }) {
   );
 }
 
-// 3) படிக்க
 export const useCart = () => useContext(CartContext);

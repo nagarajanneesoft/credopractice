@@ -1,5 +1,5 @@
 import { Button, Container } from "react-bootstrap";
-import { CartProvider, useCart } from "../../context/CartContext";
+import { useCart } from "../../context/CartContext";
 
 // Static products
 const products = [
@@ -11,9 +11,10 @@ const products = [
 // Component 1: Navbar (count மட்டும் காட்டும்)
 function CartNavbar() {
   const { cart } = useCart();
+  const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
   return (
     <div className="border rounded p-2 mb-3">
-      <b>🛒 Cart ({cart.length})</b>
+      <b>🛒 Cart ({itemCount})</b>
     </div>
   );
 }
@@ -41,7 +42,10 @@ function ProductList() {
 function CartSummary() {
   const { cart, removeFromCart } = useCart();
 
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  const total = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
 
   return (
     <div>
@@ -49,16 +53,17 @@ function CartSummary() {
 
       {cart.length === 0 && <p>Cart is empty</p>}
 
-      {cart.map((item, index) => (
-        <div key={index} className="d-flex align-items-center gap-3 mb-2">
+      {cart.map((item) => (
+        <div key={item.id} className="d-flex align-items-center gap-3 mb-2">
           <span style={{ width: 150 }}>{item.name}</span>
           <span style={{ width: 90 }}>₹{item.price}</span>
+          <span style={{ width: 90 }}>Qty: {item.quantity}</span>
           <Button
             size="sm"
             variant="danger"
-            onClick={() => removeFromCart(index)}
+            onClick={() => removeFromCart(item.id)}
           >
-            Remove
+            Remove 1
           </Button>
         </div>
       ))}
@@ -71,12 +76,10 @@ function CartSummary() {
 // Page
 export default function CartDemo() {
   return (
-    <CartProvider>
-      <Container className="py-4">
-        <CartNavbar />
-        <ProductList />
-        <CartSummary />
-      </Container>
-    </CartProvider>
+    <Container className="py-4">
+      <CartNavbar />
+      <ProductList />
+      <CartSummary />
+    </Container>
   );
 }
