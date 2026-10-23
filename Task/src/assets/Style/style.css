@@ -1057,3 +1057,6 @@ main {
 .dark_light_mode {
   cursor: pointer;
 }
+p {
+  color: red;
+}
