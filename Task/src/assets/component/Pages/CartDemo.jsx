@@ -1,85 +1,218 @@
-import { Button, Container } from "react-bootstrap";
+import {
+  Badge,
+  Button,
+  Card,
+  Col,
+  Container,
+  InputGroup,
+  Row,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { products } from "./data/productsData";
 import { useCart } from "../../context/CartContext";
 
-// Static products
-const products = [
-  { id: 1, name: "Laptop", price: 55000 },
-  { id: 2, name: "Smart Phone", price: 18000 },
-  { id: 3, name: "Headphones", price: 2500 },
-];
+const formatPrice = (price) =>
+  new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(price);
 
-// Component 1: Navbar (count மட்டும் காட்டும்)
-function CartNavbar() {
-  const { cart } = useCart();
-  const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
-  return (
-    <div className="border rounded p-2 mb-3">
-      <b>🛒 Cart ({itemCount})</b>
-    </div>
-  );
-}
+function ProductCard({ product }) {
+  const { cart, addToCart } = useCart();
+  const quantity =
+    cart.find((cartItem) => cartItem.id === product.id)?.quantity ?? 0;
 
-// Component 2: Product list (Add button)
-function ProductList() {
-  const { addToCart } = useCart();
   return (
-    <div className="mb-4">
-      <h6>Products</h6>
-      {products.map((p) => (
-        <div key={p.id} className="d-flex align-items-center gap-3 mb-2">
-          <span style={{ width: 150 }}>{p.name}</span>
-          <span style={{ width: 90 }}>₹{p.price}</span>
-          <Button size="sm" variant="success" onClick={() => addToCart(p)}>
-            Add
+    <Card className="cart-demo-product h-100">
+      <Card.Img
+        variant="top"
+        src={product.image}
+        alt={product.name}
+        className="cart-demo-product__image"
+      />
+      <Card.Body className="d-flex flex-column">
+        <Badge bg="light" text="dark" className="align-self-start mb-2">
+          {product.category}
+        </Badge>
+        <Card.Title className="h6">{product.name}</Card.Title>
+        <div className="d-flex align-items-center justify-content-between mt-auto pt-3">
+          <strong>{formatPrice(product.price)}</strong>
+          <Button
+            size="sm"
+            variant={quantity > 0 ? "outline-success" : "success"}
+            onClick={() => addToCart(product)}
+            disabled={quantity === 5}
+          >
+            {quantity === 5 ? "Limit reached" : "Add to cart"}
           </Button>
         </div>
-      ))}
-    </div>
+      </Card.Body>
+    </Card>
   );
 }
 
-// Component 3: Cart summary (Remove button + Total)
 function CartSummary() {
-  const { cart, removeFromCart } = useCart();
-
-  const total = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+  const { cart, addToCart, removeFromCart } = useCart();
+  const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
+  const subtotal = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
     0,
   );
 
   return (
-    <div>
-      <h6>Your Cart</h6>
-
-      {cart.length === 0 && <p>Cart is empty</p>}
-
-      {cart.map((item) => (
-        <div key={item.id} className="d-flex align-items-center gap-3 mb-2">
-          <span style={{ width: 150 }}>{item.name}</span>
-          <span style={{ width: 90 }}>₹{item.price}</span>
-          <span style={{ width: 90 }}>Qty: {item.quantity}</span>
-          <Button
-            size="sm"
-            variant="danger"
-            onClick={() => removeFromCart(item.id)}
-          >
-            Remove 1
-          </Button>
+    <Card className="cart-demo-summary">
+      <Card.Body className="p-4">
+        <div className="d-flex align-items-center justify-content-between mb-4">
+          <div>
+            <p className="cart-demo-eyebrow mb-1">YOUR SELECTION</p>
+            <h2 className="h4 mb-0">Your cart</h2>
+          </div>
+          <Badge pill bg="success" className="cart-demo-summary__count">
+            {itemCount} {itemCount === 1 ? "item" : "items"}
+          </Badge>
         </div>
-      ))}
 
-      <b>Total: ₹{total}</b>
-    </div>
+        {cart.length === 0 ? (
+          <div className="cart-demo-empty text-center">
+            <div className="cart-demo-empty__icon" aria-hidden="true">
+              🛍️
+            </div>
+            <h3 className="h6">Your cart is waiting</h3>
+            <p className="text-muted mb-3">
+              Add something you like to see it here.
+            </p>
+            <Button as={Link} to="/products" variant="outline-success" size="sm">
+              Browse all products
+            </Button>
+          </div>
+        ) : (
+          <>
+            <div className="cart-demo-items">
+              {cart.map((item) => (
+                <div className="cart-demo-item" key={item.id}>
+                  <img
+                    className="cart-demo-item__image"
+                    src={
+                      item.image ??
+                      products.find((product) => product.id === item.id)?.image
+                    }
+                    alt=""
+                  />
+                  <div className="cart-demo-item__details">
+                    <div className="d-flex justify-content-between gap-2">
+                      <div>
+                        <h3 className="cart-demo-item__name">{item.name}</h3>
+                        <span className="text-muted small">
+                          {formatPrice(item.price)} each
+                        </span>
+                      </div>
+                      <strong className="cart-demo-item__total">
+                        {formatPrice(item.price * item.quantity)}
+                      </strong>
+                    </div>
+                    <div className="d-flex align-items-center justify-content-between mt-2">
+                      <InputGroup size="sm" className="cart-demo-quantity">
+                        <Button
+                          variant="outline-secondary"
+                          aria-label={`Decrease ${item.name} quantity`}
+                          onClick={() => removeFromCart(item.id)}
+                        >
+                          −
+                        </Button>
+                        <span
+                          className="cart-demo-quantity__value"
+                          aria-label={`Quantity: ${item.quantity}`}
+                        >
+                          {item.quantity}
+                        </span>
+                        <Button
+                          variant="outline-secondary"
+                          aria-label={`Increase ${item.name} quantity`}
+                          onClick={() => addToCart(item)}
+                          disabled={item.quantity === 5}
+                        >
+                          +
+                        </Button>
+                      </InputGroup>
+                      <Button
+                        variant="link"
+                        size="sm"
+                        className="cart-demo-remove p-0"
+                        onClick={() => removeFromCart(item.id, item.quantity)}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="cart-demo-totals pt-3 mt-3">
+              <div className="d-flex justify-content-between text-muted mb-2">
+                <span>Subtotal</span>
+                <span>{formatPrice(subtotal)}</span>
+              </div>
+              <div className="d-flex justify-content-between text-muted mb-3">
+                <span>Delivery</span>
+                <span>Calculated at checkout</span>
+              </div>
+              <div className="d-flex justify-content-between align-items-center">
+                <strong className="h6 mb-0">Items total</strong>
+                <strong className="h5 text-success mb-0">
+                  {formatPrice(subtotal)}
+                </strong>
+              </div>
+            </div>
+            <p className="cart-demo-note mb-0 mt-3">
+              Your cart count in the header updates automatically.
+            </p>
+          </>
+        )}
+      </Card.Body>
+    </Card>
   );
 }
 
-// Page
 export default function CartDemo() {
   return (
-    <Container className="py-4">
-      <CartNavbar />
-      <ProductList />
-      <CartSummary />
+    <Container className="cart-demo">
+      <header className="cart-demo-hero">
+        <div>
+          <p className="cart-demo-hero__eyebrow">A LITTLE SOMETHING FOR YOU</p>
+          <h1>Cart Demo</h1>
+          <p className="cart-demo-hero__description mb-0">
+            Explore the collection and keep track of your picks in one place.
+          </p>
+        </div>
+        <div className="cart-demo-hero__mark" aria-hidden="true">
+          🛒
+        </div>
+      </header>
+
+      <Row className="g-4">
+        <Col lg={7}>
+          <div className="cart-demo-section-heading">
+            <div>
+              <p className="cart-demo-eyebrow mb-1">HANDPICKED FOR YOU</p>
+              <h2 className="h4 mb-0">Explore products</h2>
+            </div>
+            <span className="text-muted small">{products.length} products</span>
+          </div>
+          <Row xs={1} sm={2} className="g-3">
+            {products.map((product) => (
+              <Col key={product.id}>
+                <ProductCard product={product} />
+              </Col>
+            ))}
+          </Row>
+        </Col>
+
+        <Col lg={5}>
+          <CartSummary />
+        </Col>
+      </Row>
     </Container>
   );
 }
