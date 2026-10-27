@@ -250,6 +250,34 @@ function Header({ user, onLogout }) {
                 useCustom
               </NavDropdown.Item>
             </NavDropdown>
+
+            <NavDropdown title="API" id="Oct" className="header-dropdown">
+              <NavDropdown.Item as={NavLink} to="/fetch">
+                Fetch Method
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/axiosget">
+                Axios Get Method
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/axiospost">
+                Axios Post Method
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/axiosnewpost">
+                Axios New Post
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/axiosinstance">
+                Axios Instance
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/lazzy">
+                Lazzy Loader
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/memo">
+                Memo
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/call">
+                Use Call Back
+              </NavDropdown.Item>
+            </NavDropdown>
+
             <ThemeToggle />
             <NavLink
               to="/cartdemo"

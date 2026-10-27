@@ -50,6 +50,14 @@ import Six from "./assets/component/Pages/hooks/Six";
 import Seven from "./assets/component/Pages/hooks/Seven";
 import Eight from "./assets/component/Pages/hooks/Eight";
 import HomeDashboard from "./assets/component/Pages/HomeDashboard";
+import FetchMethods from "./assets/component/Pages/ApiMethods/FetchMethods";
+import AxiosGetMethods from "./assets/component/Pages/ApiMethods/AxiosGetMethods";
+import AxiosInstanceMethods from "./assets/component/Pages/ApiMethods/AxiosInstanceMethods";
+import AxiosPostMethods from "./assets/component/Pages/ApiMethods/AxiosPostMethods";
+import AxiosPostNew from "./assets/component/Pages/ApiMethods/AxiosPostNew";
+import LazzyLoad from "./assets/component/Pages/LazzyLoad";
+import MemoPage from "./assets/component/Pages/MemoPage";
+import UseCallPage from "./assets/component/Pages/UseCallPage";
 
 function App() {
   const navigate = useNavigate();
@@ -126,7 +134,6 @@ function App() {
                     )
                   }
                 />
-
                 <Route
                   path="/home"
                   element={
@@ -153,7 +160,6 @@ function App() {
                   path="/dynamic-route-page"
                   element={<DynamicRoutePage />}
                 />
-
                 <Route
                   path={"/contact"}
                   element={
@@ -216,7 +222,6 @@ function App() {
                   path={"/lifecycle-performance-audit"}
                   element={<LifecyclePerformanceAudit />}
                 />
-
                 <Route
                   path={"/setting-up-navigation-foundation"}
                   element={<SettingUpNavigationFoundation />}
@@ -245,13 +250,11 @@ function App() {
                   path="/products/category/:categoryName"
                   element={<Products />}
                 />
-
                 {/* 21-Oct */}
                 <Route path={"/translate"} element={<LanguageDemo />} />
                 <Route path={"/cartdemo"} element={<CartDemo />} />
                 {/* <Route path={"/dash"} element={<Dashboard />} /> */}
                 <Route path={"/homedash"} element={<HomeDashboard />} />
-
                 {/* 23-Oct */}
                 <Route path="/hooks" element={<DashboardHooks />} />
                 <Route path="/one" element={<One />} />
@@ -262,6 +265,18 @@ function App() {
                 <Route path="/six" element={<Six />} />
                 <Route path="/seven" element={<Seven />} />
                 <Route path="/eight" element={<Eight />} />
+                {/* 26-Oct */}
+                <Route path="/fetch" element={<FetchMethods />} />
+                <Route path="/axiosget" element={<AxiosGetMethods />} />
+                <Route path="/axiospost" element={<AxiosPostMethods />} />
+                <Route path="/axiosnewpost" element={<AxiosPostNew />} />
+                <Route
+                  path="/axiosinstance"
+                  element={<AxiosInstanceMethods />}
+                />
+                <Route path="/lazzy" element={<LazzyLoad />} />
+                <Route path="/memo" element={<MemoPage />} />
+                <Route path="/call" element={<UseCallPage />} />
               </Routes>
             </Col>
           </Row>
