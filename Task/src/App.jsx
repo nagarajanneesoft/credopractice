@@ -37,7 +37,9 @@ import Products from "./assets/component/Pages/Products/Products";
 import ProductDetails from "./assets/component/Pages/Products/ProductDetails";
 import Login from "./assets/component/Pages/Login";
 import ProtectedRoute from "./assets/component/ProtectedRoute";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { authApi } from "./assets/component/Pages/ApiMethods/authApi";
+
 import LanguageDemo from "./assets/component/Pages/LanguageDemo";
 import CartDemo from "./assets/component/Pages/CartDemo";
 import DashboardHooks from "./assets/component/Pages/hooks/DashboardHooks";
@@ -58,6 +60,7 @@ import AxiosPostNew from "./assets/component/Pages/ApiMethods/AxiosPostNew";
 import LazzyLoad from "./assets/component/Pages/LazzyLoad";
 import MemoPage from "./assets/component/Pages/MemoPage";
 import UseCallPage from "./assets/component/Pages/UseCallPage";
+import Employees from "./assets/component/Pages/Employees";
 
 function App() {
   const navigate = useNavigate();
@@ -66,7 +69,8 @@ function App() {
   // Restore the user on refresh without retaining credentials or tokens.
   const [user, setUser] = useState(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (!storedUser) return null;
+    // user irundhum session token illana -> login illa nu eduthukkum
+    if (!storedUser || !localStorage.getItem("accessToken")) return null;
 
     const safeUser = Object.fromEntries(
       Object.entries(storedUser).filter(
@@ -86,11 +90,25 @@ function App() {
     localStorage.setItem("user", JSON.stringify(userData));
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await authApi.post("/logout"); // server la session delete
+    } catch {
+      /* server illa na kooda local logout nadakkum */
+    }
     setUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
     navigate("/login");
   };
+
+  // Page refresh / open pannum pothu session innum valid ah nu server kitta kekkurom
+  // Expire aagiduchu na authApi (401) thaanaa login page ku anuppidum
+  useEffect(() => {
+    if (localStorage.getItem("accessToken")) {
+      authApi.get("/me").catch(() => {});
+    }
+  }, []);
 
   useLayoutEffect(() => {
     if (!user) {
@@ -277,6 +295,7 @@ function App() {
                 <Route path="/lazzy" element={<LazzyLoad />} />
                 <Route path="/memo" element={<MemoPage />} />
                 <Route path="/call" element={<UseCallPage />} />
+                <Route path="/emp" element={<Employees />} />
               </Routes>
             </Col>
           </Row>

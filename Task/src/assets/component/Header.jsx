@@ -276,6 +276,9 @@ function Header({ user, onLogout }) {
               <NavDropdown.Item as={NavLink} to="/call">
                 Use Call Back
               </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/emp">
+                Employees
+              </NavDropdown.Item>
             </NavDropdown>
 
             <ThemeToggle />
@@ -302,7 +305,7 @@ function Header({ user, onLogout }) {
                   height={32}
                 />
               )} */}
-              <span>{user?.firstName}</span>
+              <span>{user?.username}</span>
               <Button size="sm" variant="danger" onClick={onLogout}>
                 Logout
               </Button>

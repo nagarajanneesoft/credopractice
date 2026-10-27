@@ -126,6 +126,9 @@ import {
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { products, categories } from "../data/productsData";
 import { useCart } from "../../../context/CartContext";
+import axios from "axios";
+
+const API = "http://localhost:5000/api";
 
 export default function Products() {
   const location = useLocation();
@@ -177,107 +180,128 @@ export default function Products() {
   const getCartQuantity = (productId) =>
     cart.find((cartItem) => cartItem.id === productId)?.quantity ?? 0;
 
+  const handleClick = async (e) => {
+    e.preventDefault();
+
+    const res = await axios.post(`${API}/resend-otp`, {
+      username: "admin",
+      otp: 123,
+    });
+  };
+
   return (
-    <Container className="py-4">
-      <h6 className="mb-3">
-        {category ? category : "All Products"}{" "}
-        <Badge bg="secondary">{filteredProducts.length}</Badge>
-      </h6>
+    <>
+      <button type="button" onClick={handleClick}>
+        Trigger
+      </button>
+      <Container className="py-4">
+        <h6 className="mb-3">
+          {category ? category : "All Products"}{" "}
+          <Badge bg="secondary">{filteredProducts.length}</Badge>
+        </h6>
 
-      <div className="d-flex justify-content-between">
-        {/* Category buttons */}
-        <Nav variant="pills" className="mb-4 gap-2">
-          <Nav.Item>
-            <Nav.Link
-              as={Link}
-              to={`/products${buildQuery("category", "")}`}
-              active={!category}
-            >
-              All
-            </Nav.Link>
-          </Nav.Item>
-
-          {categories.map((cat) => (
-            <Nav.Item key={cat}>
+        <div className="d-flex justify-content-between">
+          {/* Category buttons */}
+          <Nav variant="pills" className="mb-4 gap-2">
+            <Nav.Item>
               <Nav.Link
                 as={Link}
-                to={`/products${buildQuery("category", cat)}`}
-                active={category === cat}
+                to={`/products${buildQuery("category", "")}`}
+                active={!category}
               >
-                {cat}
+                All
               </Nav.Link>
             </Nav.Item>
-          ))}
-        </Nav>
-        {/* Search box */}
-        <Form.Control
-          type="text"
-          placeholder="Search products..."
-          className="mb-3"
-          value={search}
-          onChange={handleSearch}
-          style={customstyle}
-        />
-      </div>
-      {/* Product list */}
-      <Row>
-        {filteredProducts.length === 0 ? (
-          <p>Products Not Found</p>
-        ) : (
-          filteredProducts.map((item) => {
-            const quantity = getCartQuantity(item.id);
 
-            return (
-              <Col key={item.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
-                <Card className="h-100 shadow-sm">
-                  <Card.Img variant="top" src={item.image} alt={item.name} />
-                  <Card.Body className="d-flex flex-column">
-                    <Badge bg="info" className="align-self-start mb-2">
-                      {item.category}
-                    </Badge>
-                    <Card.Title>{item.name}</Card.Title>
-                    <Card.Text>₹{item.price}</Card.Text>
-                    <InputGroup className="mb-2">
+            {categories.map((cat) => (
+              <Nav.Item key={cat}>
+                <Nav.Link
+                  as={Link}
+                  to={`/products${buildQuery("category", cat)}`}
+                  active={category === cat}
+                >
+                  {cat}
+                </Nav.Link>
+              </Nav.Item>
+            ))}
+          </Nav>
+          {/* Search box */}
+          <Form.Control
+            type="text"
+            placeholder="Search products..."
+            className="mb-3"
+            value={search}
+            onChange={handleSearch}
+            style={customstyle}
+          />
+        </div>
+        {/* Product list */}
+        <Row>
+          {filteredProducts.length === 0 ? (
+            <p>Products Not Found</p>
+          ) : (
+            filteredProducts.map((item) => {
+              const quantity = getCartQuantity(item.id);
+
+              return (
+                <Col
+                  key={item.id}
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  className="mb-4"
+                >
+                  <Card className="h-100 shadow-sm">
+                    <Card.Img variant="top" src={item.image} alt={item.name} />
+                    <Card.Body className="d-flex flex-column">
+                      <Badge bg="info" className="align-self-start mb-2">
+                        {item.category}
+                      </Badge>
+                      <Card.Title>{item.name}</Card.Title>
+                      <Card.Text>₹{item.price}</Card.Text>
+                      <InputGroup className="mb-2">
+                        <Button
+                          variant="outline-secondary"
+                          aria-label={`Decrease ${item.name} quantity`}
+                          onClick={() => removeFromCart(item.id)}
+                          disabled={quantity === 0}
+                        >
+                          −
+                        </Button>
+                        <Form.Control
+                          type="number"
+                          aria-label={`${item.name} quantity`}
+                          min="0"
+                          max="5"
+                          value={quantity}
+                          readOnly
+                        />
+                        <Button
+                          variant="outline-secondary"
+                          aria-label={`Increase ${item.name} quantity`}
+                          onClick={() => addToCart(item)}
+                          disabled={quantity === 5}
+                        >
+                          +
+                        </Button>
+                      </InputGroup>
                       <Button
-                        variant="outline-secondary"
-                        aria-label={`Decrease ${item.name} quantity`}
-                        onClick={() => removeFromCart(item.id)}
-                        disabled={quantity === 0}
+                        as={Link}
+                        to={`/products/${item.id}`}
+                        variant="dark"
+                        className="mt-auto"
                       >
-                        −
+                        View Details
                       </Button>
-                      <Form.Control
-                        type="number"
-                        aria-label={`${item.name} quantity`}
-                        min="0"
-                        max="5"
-                        value={quantity}
-                        readOnly
-                      />
-                      <Button
-                        variant="outline-secondary"
-                        aria-label={`Increase ${item.name} quantity`}
-                        onClick={() => addToCart(item)}
-                        disabled={quantity === 5}
-                      >
-                        +
-                      </Button>
-                    </InputGroup>
-                    <Button
-                      as={Link}
-                      to={`/products/${item.id}`}
-                      variant="dark"
-                      className="mt-auto"
-                    >
-                      View Details
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            );
-          })
-        )}
-      </Row>
-    </Container>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              );
+            })
+          )}
+        </Row>
+      </Container>
+    </>
   );
 }
