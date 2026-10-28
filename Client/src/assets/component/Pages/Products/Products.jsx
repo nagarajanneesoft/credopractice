@@ -191,8 +191,8 @@ export default function Products() {
 
   return (
     <>
-      <button type="button" onClick={handleClick}>
-        Trigger
+      <button type="button" className="btn btn-success" onClick={handleClick}>
+        Bearer Token Trigger
       </button>
       <Container className="py-4">
         <h6 className="mb-3">
