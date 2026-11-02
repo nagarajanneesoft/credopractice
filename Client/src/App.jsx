@@ -61,7 +61,7 @@ import LazzyLoad from "./assets/component/Pages/LazzyLoad";
 import MemoPage from "./assets/component/Pages/MemoPage";
 import UseCallPage from "./assets/component/Pages/UseCallPage";
 import Employees from "./assets/component/Pages/Employees";
-
+import ReduxExPage from "./assets/component/Pages/ReduxExPage";
 function App() {
   const navigate = useNavigate();
   const hasAddedBackGuard = useRef(false);
@@ -136,9 +136,9 @@ function App() {
   return (
     <>
       {user && <Header user={user} onLogout={handleLogout} />}
+
       <main className="flex-shrink-0">
         <Container>
-          <Row></Row>
           <Row>
             <Col>
               <Routes>
@@ -296,11 +296,13 @@ function App() {
                 <Route path="/memo" element={<MemoPage />} />
                 <Route path="/call" element={<UseCallPage />} />
                 <Route path="/emp" element={<Employees />} />
+                <Route path="/redux" element={<ReduxExPage />} />
               </Routes>
             </Col>
           </Row>
         </Container>
       </main>
+
       <Footer />
     </>
   );

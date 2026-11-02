@@ -24,7 +24,8 @@ function Login({ onLogin }) {
 
   const getErrorMessage = (err) =>
     err.response
-      ? err.response.data?.message || "Something went wrong. Thirumba try pannunga"
+      ? err.response.data?.message ||
+        "Something went wrong. Thirumba try pannunga"
       : "Server connect aagala. node server.js run pannunga";
 
   // STEP 1: username + password -> OTP anuppu

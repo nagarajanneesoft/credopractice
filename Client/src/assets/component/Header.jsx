@@ -85,6 +85,7 @@ function Header({ user, onLogout }) {
             <NavLink to="/contact" className={navLinkClass}>
               Contact
             </NavLink>
+
             <NavDropdown
               title="Task_28-Sep"
               id="task-28-sep"
@@ -281,7 +282,12 @@ function Header({ user, onLogout }) {
               </NavDropdown.Item>
             </NavDropdown>
 
+            <NavLink to="/redux" className={navLinkClass}>
+              Redux
+            </NavLink>
+
             <ThemeToggle />
+
             <NavLink
               to="/cartdemo"
               className={navLinkClass}
