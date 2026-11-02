@@ -1,20 +1,39 @@
 import { useState } from "react";
-import { Form, Alert, Container, Row, Col, Card } from "react-bootstrap";
+import { Form, Alert, Button, Spinner, InputGroup } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import {
+  FaUser,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+  FaShieldAlt,
+  FaArrowLeft,
+  FaCheckCircle,
+  FaKey,
+} from "react-icons/fa";
 import { encryptPassword } from "./ApiMethods/encryptPassword";
+import "../../Style/Login.css";
 
 // Live la Vercel env VITE_API_URL (Render URL + /api); local la localhost
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
+const features = [
+  { icon: FaLock, text: "End-to-end encrypted password" },
+  { icon: FaShieldAlt, text: "Two-step OTP verification" },
+  { icon: FaCheckCircle, text: "Protected dashboard access" },
+];
 
 function Login({ onLogin }) {
   const [step, setStep] = useState("credentials"); // "credentials" -> "otp"
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
   const [loading, setLoading] = useState(false);
+  const [resending, setResending] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -95,6 +114,7 @@ function Login({ onLogin }) {
 
   const handleResend = async () => {
     setError("");
+    setResending(true);
     try {
       const res = await axios.post(`${API}/resend-otp`, {
         username: name.trim(),
@@ -102,6 +122,8 @@ function Login({ onLogin }) {
       setInfo(res.data.message);
     } catch (err) {
       setError(getErrorMessage(err));
+    } finally {
+      setResending(false);
     }
   };
 
@@ -113,64 +135,189 @@ function Login({ onLogin }) {
     setInfo("");
   };
 
+  const isOtpStep = step === "otp";
+  const canSubmitCredentials = name.trim() && password && !loading;
+
   return (
-    <Container className="py-4" style={{ maxWidth: 400 }}>
-      <Row className="d-flex justify-content-center">
-        <Col sm={6}>
-          <Card className="p-5 rounded-4">
-            <h6 className="text-center">
-              {step === "credentials" ? "Login" : "Verify OTP"}
-            </h6>
+    <div className="login-page">
+      <div className="login-shell">
+        {/* ===== Left: Brand panel (desktop only) ===== */}
+        <aside className="login-brand d-none d-lg-flex">
+          <div className="login-brand-logo">
+            <img
+              src="https://www.credosystemz.com/wp-content/uploads/2024/02/cropped-cropped-cropped-logo-1.png"
+              alt="Credo Systemz logo"
+            />
+          </div>
 
-            {error && <Alert variant="danger">{error}</Alert>}
-            {step === "otp" && info && <Alert variant="success">{info}</Alert>}
+          <div className="login-brand-body">
+            <h1 className="login-brand-title">
+              Learn. Build.
+              <br />
+              Grow.
+            </h1>
+            <p className="login-brand-text">
+              Your React practice workspace — tasks, hooks, APIs and projects,
+              all in one place.
+            </p>
 
-            {step === "credentials" ? (
-              <Form onSubmit={handleCredentials}>
-                <Form.Group className="mb-3">
-                  <Form.Label>User Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={name}
-                    placeholder="admin"
-                    onChange={(e) => {
-                      setName(e.target.value);
-                      setError("");
-                    }}
-                  />
+            <ul className="login-features">
+              {features.map(({ icon: Icon, text }) => (
+                <li key={text}>
+                  <span className="login-feature-icon">
+                    <Icon aria-hidden="true" />
+                  </span>
+                  {text}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <p className="login-brand-footer">
+            © {new Date().getFullYear()} Credo Systemz
+          </p>
+        </aside>
+
+        {/* ===== Right: Form ===== */}
+        <main className="login-form-side">
+          <div className="login-form-inner">
+            {/* Mobile la mattum logo */}
+            <div className="login-mobile-logo d-lg-none">
+              <img
+                src="https://www.credosystemz.com/wp-content/uploads/2024/02/cropped-cropped-cropped-logo-1.png"
+                alt="Credo Systemz logo"
+              />
+            </div>
+
+            {/* Step indicator */}
+            <div className="login-steps" aria-label="Login progress">
+              <div className={`login-step ${!isOtpStep ? "current" : "done"}`}>
+                <span className="login-step-dot">
+                  {isOtpStep ? <FaCheckCircle /> : "1"}
+                </span>
+                Sign in
+              </div>
+              <div className="login-step-line" />
+              <div className={`login-step ${isOtpStep ? "current" : ""}`}>
+                <span className="login-step-dot">2</span>
+                Verify
+              </div>
+            </div>
+
+            {/* Heading */}
+            <div className="mb-4">
+              <h2 className="login-title">
+                {isOtpStep ? "Check your email" : "Welcome back"}
+              </h2>
+              <p className="login-subtitle">
+                {isOtpStep
+                  ? "Enter the 6-digit code we sent to continue."
+                  : "Sign in to continue to your dashboard."}
+              </p>
+            </div>
+
+            {error && (
+              <Alert variant="danger" className="login-alert">
+                {error}
+              </Alert>
+            )}
+            {isOtpStep && info && (
+              <Alert variant="success" className="login-alert">
+                {info}
+              </Alert>
+            )}
+
+            {!isOtpStep ? (
+              /* ===== STEP 1: Credentials ===== */
+              <Form onSubmit={handleCredentials} noValidate>
+                <Form.Group className="mb-3" controlId="login-username">
+                  <Form.Label className="login-label">Username</Form.Label>
+                  <InputGroup className="login-input-group">
+                    <InputGroup.Text>
+                      <FaUser aria-hidden="true" />
+                    </InputGroup.Text>
+                    <Form.Control
+                      type="text"
+                      size="lg"
+                      value={name}
+                      placeholder="admin"
+                      autoComplete="username"
+                      autoFocus
+                      onChange={(e) => {
+                        setName(e.target.value);
+                        setError("");
+                      }}
+                    />
+                  </InputGroup>
                 </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    value={password}
-                    placeholder="Admin@123"
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                      setError("");
-                    }}
-                  />
+                <Form.Group className="mb-4" controlId="login-password">
+                  <Form.Label className="login-label">Password</Form.Label>
+                  <InputGroup className="login-input-group">
+                    <InputGroup.Text>
+                      <FaLock aria-hidden="true" />
+                    </InputGroup.Text>
+                    <Form.Control
+                      type={showPassword ? "text" : "password"}
+                      size="lg"
+                      value={password}
+                      placeholder="Admin@123"
+                      autoComplete="current-password"
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        setError("");
+                      }}
+                    />
+                    <Button
+                      variant="link"
+                      className="login-eye-btn"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </Button>
+                  </InputGroup>
                 </Form.Group>
 
-                <button
+                <Button
                   type="submit"
-                  className="btn btn-success mt-2 w-100"
-                  disabled={loading}
+                  size="lg"
+                  className="btn-login w-100"
+                  disabled={!canSubmitCredentials}
                 >
-                  {loading ? "Checking..." : "Submit"}
-                </button>
+                  {loading ? (
+                    <>
+                      <Spinner size="sm" className="me-2" />
+                      Checking...
+                    </>
+                  ) : (
+                    "Continue"
+                  )}
+                </Button>
+
+                <p className="login-secure-note">
+                  <FaShieldAlt aria-hidden="true" /> Your password is encrypted
+                  before it leaves this device.
+                </p>
               </Form>
             ) : (
-              <Form onSubmit={handleOtp}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Enter OTP</Form.Label>
+              /* ===== STEP 2: OTP ===== */
+              <Form onSubmit={handleOtp} noValidate>
+                <Form.Group className="mb-4" controlId="login-otp">
+                  <Form.Label className="login-label">
+                    <FaKey aria-hidden="true" className="me-1" /> Verification
+                    code
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     inputMode="numeric"
+                    autoComplete="one-time-code"
                     maxLength={6}
                     value={otp}
-                    placeholder="6 digit OTP"
+                    placeholder="••••••"
+                    className="login-otp-input"
                     autoFocus
                     onChange={(e) => {
                       // number mattum allow
@@ -180,36 +327,48 @@ function Login({ onLogin }) {
                   />
                 </Form.Group>
 
-                <button
+                <Button
                   type="submit"
-                  className="btn btn-success mt-2 w-100"
+                  size="lg"
+                  className="btn-login w-100"
                   disabled={loading || otp.length !== 6}
                 >
-                  {loading ? "Verifying..." : "Verify & Login"}
-                </button>
+                  {loading ? (
+                    <>
+                      <Spinner size="sm" className="me-2" />
+                      Verifying...
+                    </>
+                  ) : (
+                    "Verify & Sign in"
+                  )}
+                </Button>
 
-                <div className="d-flex justify-content-between mt-3">
-                  <button
-                    type="button"
-                    className="btn btn-link p-0"
+                <div className="login-otp-actions">
+                  <Button
+                    variant="link"
+                    className="login-text-btn"
                     onClick={backToLogin}
                   >
-                    ← Back
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-link p-0"
-                    onClick={handleResend}
-                  >
-                    Resend OTP
-                  </button>
+                    <FaArrowLeft aria-hidden="true" className="me-1" /> Back
+                  </Button>
+                  <span className="text-body-secondary small">
+                    Didn't get it?{" "}
+                    <Button
+                      variant="link"
+                      className="login-text-btn fw-semibold"
+                      onClick={handleResend}
+                      disabled={resending}
+                    >
+                      {resending ? "Sending..." : "Resend code"}
+                    </Button>
+                  </span>
                 </div>
               </Form>
             )}
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+          </div>
+        </main>
+      </div>
+    </div>
   );
 }
 

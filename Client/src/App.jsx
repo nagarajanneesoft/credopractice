@@ -41,7 +41,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { authApi } from "./assets/component/Pages/ApiMethods/authApi";
 
 import LanguageDemo from "./assets/component/Pages/LanguageDemo";
-import CartDemo from "./assets/component/Pages/CartDemo";
+import CartDemo from "./assets/component/Pages/CartDemo_";
 import DashboardHooks from "./assets/component/Pages/hooks/DashboardHooks";
 import One from "./assets/component/Pages/hooks/One";
 import Two from "./assets/component/Pages/hooks/Two";
@@ -62,6 +62,10 @@ import MemoPage from "./assets/component/Pages/MemoPage";
 import UseCallPage from "./assets/component/Pages/UseCallPage";
 import Employees from "./assets/component/Pages/Employees";
 import ReduxExPage from "./assets/component/Pages/ReduxExPage";
+import Cart from "./assets/component/Pages/Cart";
+import Payment from "./assets/component/Pages/Payment";
+import OrderSuccess from "./assets/component/OrderSuccess";
+import BearerTokenPage from "./assets/component/Pages/ApiMethods/BearerTokenPage";
 function App() {
   const navigate = useNavigate();
   const hasAddedBackGuard = useRef(false);
@@ -270,7 +274,7 @@ function App() {
                 />
                 {/* 21-Oct */}
                 <Route path={"/translate"} element={<LanguageDemo />} />
-                <Route path={"/cartdemo"} element={<CartDemo />} />
+                {/* <Route path={"/cartdemo"} element={<CartDemo />} /> */}
                 {/* <Route path={"/dash"} element={<Dashboard />} /> */}
                 <Route path={"/homedash"} element={<HomeDashboard />} />
                 {/* 23-Oct */}
@@ -292,11 +296,16 @@ function App() {
                   path="/axiosinstance"
                   element={<AxiosInstanceMethods />}
                 />
+                <Route path="/bearer-token" element={<BearerTokenPage />} />
                 <Route path="/lazzy" element={<LazzyLoad />} />
                 <Route path="/memo" element={<MemoPage />} />
                 <Route path="/call" element={<UseCallPage />} />
                 <Route path="/emp" element={<Employees />} />
                 <Route path="/redux" element={<ReduxExPage />} />
+
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/payment" element={<Payment />} />
+                <Route path="/order-success" element={<OrderSuccess />} />
               </Routes>
             </Col>
           </Row>

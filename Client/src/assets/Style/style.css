@@ -151,13 +151,6 @@
   margin-top: 0.7rem;
 }
 
-.header-dropdown .dropdown-item {
-  border-radius: 10px;
-  padding: 0.7rem 0.9rem;
-  font-weight: 500;
-  color: #1f2937;
-}
-
 .header-dropdown .dropdown-item:hover,
 .header-dropdown .dropdown-item:focus {
   background: rgba(217, 31, 38, 0.08);
@@ -832,7 +825,7 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1160px !important;
+  max-width: 1200px !important;
   padding-right: 28px;
   padding-left: 28px;
 }
