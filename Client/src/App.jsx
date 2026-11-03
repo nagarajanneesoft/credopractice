@@ -312,7 +312,7 @@ function App() {
         </Container>
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

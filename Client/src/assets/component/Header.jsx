@@ -58,7 +58,7 @@ function Header({ user, onLogout }) {
           <Nav className="header-nav align-items-lg-center">
             {/* ===== Mega Menu ===== */}
             <NavDropdown
-              title="Learning"
+              title="MERN Stack"
               id="mega-menu"
               className={`header-dropdown mega-dropdown ${
                 isMegaActive ? "mega-active" : ""
