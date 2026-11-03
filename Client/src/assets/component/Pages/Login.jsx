@@ -240,7 +240,7 @@ function Login({ onLogin }) {
                       type="text"
                       size="lg"
                       value={name}
-                      placeholder="admin"
+                      placeholder="Admin / Demo"
                       autoComplete="username"
                       autoFocus
                       onChange={(e) => {
@@ -261,7 +261,7 @@ function Login({ onLogin }) {
                       type={showPassword ? "text" : "password"}
                       size="lg"
                       value={password}
-                      placeholder="Admin@123"
+                      placeholder="Admin@123 / Demo@123"
                       autoComplete="current-password"
                       onChange={(e) => {
                         setPassword(e.target.value);
